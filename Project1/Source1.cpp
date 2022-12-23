@@ -55,7 +55,7 @@ GLfloat lastX = 400, lastY = 300;
 bool firstMouse = true;
 
 //地球自转角度
-float speedAngle = 100;
+float speedAngle = 50;
 float currentAngle = 0;
 //地球公转角度
 float speedAngleEarth = 10;
@@ -80,7 +80,7 @@ int main()
 
 
 
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "B20030119", NULL, NULL);
 	if (window == NULL)
 	{
 		printf("Failure");
@@ -221,46 +221,33 @@ int main()
 		GLint projLoc = glGetUniformLocation(shader.Program, "projection");
 		GLint indexLoc = glGetUniformLocation(shader.Program, "index");
 		
+		
 		glm::mat4 model(1);
-		//model = glm::rotate(model, glm::radians(currentAngle), glm::vec3(0.0f, 0.0f, 1.0f));
-		//model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.8f, 0.8f, 0.8f));
-		// Pass the matrices to the shader
-		// Camera/View transformation
 		glm::mat4 view(1);
 		view = camera.GetViewMatrix();
-		
-		// Projection
 		glm::mat4 projection(1);
 		projection = glm::perspective(glm::radians(camera.Zoom), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
-
 		glUniform1i(indexLoc, 0);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-		
 		glDrawElements(GL_TRIANGLES, indexes.size(), GL_UNSIGNED_INT, 0);
-		//glBindVertexArray(0); // no need to it every time 
 
 		model = glm::mat4(1);
 		model = glm::rotate(model, glm::radians(currentAngle), glm::vec3(0.0f, 0.0f, 1.0f));
 		model = glm::translate(model, glm::vec3(-2.2f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+		model = glm::scale(model, glm::vec3(0.25f, 0.25f, 0.25f));
 		model = glm::rotate(model, glm::radians(currentAngleEarth), glm::vec3(0.0f, 0.0f, 1.0f));
-
 		glUniform1i(indexLoc, 1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		// -------------------------------------------------------------------------------
-
 		glDrawElements(GL_TRIANGLES, indexes.size(), GL_UNSIGNED_INT, 0);
-		float timeValue = glfwGetTime();
+		
 		model = glm::mat4(1);
 		model = glm::rotate(model, glm::radians(currentAngle), glm::vec3(0.1f, 0.2f, 0.9f));
 		model = glm::translate(model, glm::vec3(-2.5f, 0.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));
+		model = glm::scale(model, glm::vec3(0.15f, 0.15f, 0.15f));
 		model = glm::rotate(model, glm::radians(currentAngleEarth), glm::vec3(0.0f, 1.0f, 1.0f));
 
 		glUniform1i(indexLoc, 2);
